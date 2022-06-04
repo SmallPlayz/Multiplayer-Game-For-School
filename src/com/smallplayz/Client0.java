@@ -24,12 +24,15 @@ class Game extends Thread{
     Action shootAction;
     Action fullscreenAction;
 
+    public static int width = 600, height = 600;
+
     public static char playerDir = 'W';
+    public static boolean fullScreen = false;
 
     Game() {
         frame = new JFrame("Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 600);
+        frame.setSize(width, height);
         frame.getContentPane().setBackground(new Color(107, 156, 88));
         frame.setLayout(null);
 
@@ -124,8 +127,15 @@ class Game extends Thread{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-            frame.repaint();
+            if(!fullScreen) {
+                frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                frame.repaint();
+                fullScreen = true;
+            } else if(fullScreen) {
+                frame.setSize(width, height);
+                frame.repaint();
+                fullScreen = false;
+            }
         }
     }
 }
