@@ -162,18 +162,22 @@ class Monster extends Thread{
         Game.frame.add(monster);
         System.out.println("Mob added!");
 
-        while(true) {
-            if(monster.getX() < Game.player.getX())
-                monster.setLocation(monster.getX()+1, monster.getY());
-            else if(monster.getX() > Game.player.getX())
-                monster.setLocation(monster.getX()-1, monster.getY());
-            if(monster.getY() < Game.player.getY())
-                monster.setLocation(monster.getX(), monster.getY()+1);
-            else if(monster.getY() > Game.player.getY())
-                monster.setLocation(monster.getX(), monster.getY()-1);
-            Game.wait(8);
-            if((int)(Math.random() * 4) + 0 == 0)
-                Game.wait((int)(Math.random() * 250) + 0);
+        try{
+            while(true) {
+                if(monster.getX() < Game.player.getX())
+                    monster.setLocation(monster.getX()+1, monster.getY());
+                else if(monster.getX() > Game.player.getX())
+                    monster.setLocation(monster.getX()-1, monster.getY());
+                if(monster.getY() < Game.player.getY())
+                    monster.setLocation(monster.getX(), monster.getY()+1);
+                else if(monster.getY() > Game.player.getY())
+                    monster.setLocation(monster.getX(), monster.getY()-1);
+                Game.wait(8);
+                if((int) (Math.random() * 4) == 0)
+                    Game.wait((int) (Math.random() * 250));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
