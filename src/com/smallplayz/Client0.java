@@ -3,11 +3,64 @@ package com.smallplayz;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.*;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
-public class Client0 {
+public class Client0 extends Thread{
+
+    private static Socket clientSocket = null;
+
+    public static PrintStream os = null;
+
+    private static DataInputStream is = null;
+
+    private static BufferedReader inputLine = null;
+    private static boolean closed = false;
 
     public static void main(String[] args) {
+
         Game game = new Game();
+
+        int portNumber = 12345;
+        String host = "localhost";
+
+        try {
+            clientSocket = new Socket(host, portNumber);
+            inputLine = new BufferedReader(new InputStreamReader(System.in));
+            os = new PrintStream(clientSocket.getOutputStream());
+            is = new DataInputStream(clientSocket.getInputStream());
+            os.println("Player0");
+        } catch (UnknownHostException e) {
+            System.err.println("Don't know about host " + host);
+        } catch (IOException e) {
+            System.err.println("Couldn't get I/O for the connection to the host "
+                    + host);
+        }
+        if (clientSocket != null && os != null && is != null) {
+            try {
+                new Thread(new Client0()).start();
+                while (!closed) {
+                    os.println(inputLine.readLine().trim());
+                }
+                os.close();
+                is.close();
+                clientSocket.close();
+            } catch (IOException e) {
+                System.err.println("IOException:  " + e);
+            }
+        }
+    }
+    public void run() {
+        String responseLine;
+        try {
+            while ((responseLine = is.readLine()) != null) {
+                System.out.println(responseLine);
+            }
+            closed = true;
+        } catch (IOException e) {
+            System.err.println("IOException:  " + e);
+        }
     }
 }
 
@@ -62,8 +115,8 @@ class Game extends Thread{
 
         frame.add(player);
 
-        Monster monsterThread = new Monster();
-        monsterThread.start();
+        //Monster monsterThread = new Monster();
+        //monsterThread.start();
 
         frame.setVisible(true);
     }
@@ -81,6 +134,7 @@ class Game extends Thread{
             player.setLocation(player.getX(), player.getY() - 10);
             player.setIcon(new ImageIcon("images/player.png"));
             playerDir = 'W';
+            Client0.os.println(playerDir + "       " + player.getX() + "       " + player.getY());
         }
     }
 
@@ -91,6 +145,7 @@ class Game extends Thread{
             player.setLocation(player.getX(), player.getY() + 10);
             player.setIcon(new ImageIcon("images/playerDown.png"));
             playerDir = 'S';
+            Client0.os.println(playerDir + "       " + player.getX() + "       " + player.getY());
         }
     }
 
@@ -101,6 +156,7 @@ class Game extends Thread{
             player.setLocation(player.getX() - 10, player.getY());
             player.setIcon(new ImageIcon("images/playerLeft.png"));
             playerDir = 'A';
+            Client0.os.println(playerDir + "       " + player.getX() + "       " + player.getY());
         }
     }
 
@@ -111,6 +167,7 @@ class Game extends Thread{
             player.setLocation(player.getX() + 10, player.getY());
             player.setIcon(new ImageIcon("images/playerRight.png"));
             playerDir = 'D';
+            Client0.os.println(playerDir + "       " + player.getX() + "       " + player.getY());
         }
     }
 
