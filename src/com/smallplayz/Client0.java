@@ -34,8 +34,7 @@ public class Client0 extends Thread{
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
         } catch (IOException e) {
-            System.err.println("Couldn't get I/O for the connection to the host "
-                    + host);
+            System.err.println("Couldn't get I/O for the connection to the host " + host);
         }
         if (clientSocket != null && os != null && is != null) {
             try {
@@ -56,6 +55,7 @@ public class Client0 extends Thread{
         try {
             while ((responseLine = is.readLine()) != null) {
                 System.out.println(responseLine);
+                //if()
             }
             closed = true;
         } catch (IOException e) {
@@ -202,32 +202,37 @@ class Gun extends Thread{
     JLabel bullet;
 
     public void run() {
-
+        
         bullet = new JLabel(new ImageIcon("images/bullet.png"));
         bullet.setBounds(50, 50, 15, 15);
         bullet.setLocation(Game.player.getX()+40, Game.player.getY()+40);
         Game.frame.add(bullet);
+        Client0.os.println("#bullet " + Game.playerDir + "       " + bullet.getX() + "       " + bullet.getY());
 
-        if(Game.playerDir == 'W')
-            for(int i = 0; i<3000; i++){
-                bullet.setLocation(bullet.getX(), bullet.getY()-1);
+        if(Game.playerDir == 'W') {
+            for (int i = 0; i < 3000; i++) {
+                bullet.setLocation(bullet.getX(), bullet.getY() - 1);
                 Game.wait(2);
             }
-        else if(Game.playerDir == 'A')
-            for(int i = 0; i<3000; i++){
-                bullet.setLocation(bullet.getX()-1, bullet.getY());
+        }
+        else if(Game.playerDir == 'A') {
+            for (int i = 0; i < 3000; i++) {
+                bullet.setLocation(bullet.getX() - 1, bullet.getY());
                 Game.wait(2);
             }
-        else if(Game.playerDir == 'S')
-            for(int i = 0; i<3000; i++){
-                bullet.setLocation(bullet.getX(), bullet.getY()+1);
+        }
+        else if(Game.playerDir == 'S') {
+            for (int i = 0; i < 3000; i++) {
+                bullet.setLocation(bullet.getX(), bullet.getY() + 1);
                 Game.wait(2);
             }
-        else if(Game.playerDir == 'D')
-            for(int i = 0; i<3000; i++){
-                bullet.setLocation(bullet.getX()+1, bullet.getY());
+        }
+        else if(Game.playerDir == 'D') {
+            for (int i = 0; i < 3000; i++) {
+                bullet.setLocation(bullet.getX() + 1, bullet.getY());
                 Game.wait(2);
             }
+        }
     }
 }
 class Monster extends Thread{
