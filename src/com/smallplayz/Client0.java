@@ -22,6 +22,7 @@ class Game extends Thread{
     Action leftAction;
     Action rightAction;
     Action shootAction;
+    Action fullscreenAction;
 
     public static char playerDir = 'W';
 
@@ -29,11 +30,8 @@ class Game extends Thread{
         frame = new JFrame("Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 600);
-        frame.getContentPane().setBackground(Color.GREEN);
+        frame.getContentPane().setBackground(new Color(107, 156, 88));
         frame.setLayout(null);
-
-        //frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        //frame.setUndecorated(true);
 
         player = new JLabel(new ImageIcon("images/player.png"));
         player.setBounds(100, 100, 100, 100);
@@ -44,6 +42,7 @@ class Game extends Thread{
         leftAction = new LeftAction();
         rightAction = new RightAction();
         shootAction = new ShootAction();
+        fullscreenAction = new FullScreenAction();
 
         player.getInputMap().put(KeyStroke.getKeyStroke('w'), "upAction");
         player.getActionMap().put("upAction", upAction);
@@ -55,6 +54,8 @@ class Game extends Thread{
         player.getActionMap().put("rightAction", rightAction);
         player.getInputMap().put(KeyStroke.getKeyStroke('e'), "shootAction");
         player.getActionMap().put("shootAction", shootAction);
+        player.getInputMap().put(KeyStroke.getKeyStroke('f'), "fullscreenAction");
+        player.getActionMap().put("fullscreenAction", fullscreenAction);
 
         frame.add(player);
 
@@ -109,6 +110,7 @@ class Game extends Thread{
             playerDir = 'D';
         }
     }
+
     public static class ShootAction extends AbstractAction{
 
         @Override
@@ -117,7 +119,17 @@ class Game extends Thread{
             thread.start();
         }
     }
+
+    public static class FullScreenAction extends AbstractAction {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            frame.repaint();
+        }
+    }
 }
+
 class Gun extends Thread{
 
     JLabel bullet;
@@ -160,7 +172,6 @@ class Monster extends Thread{
         monster.setBounds(500, 500, 100, 100);
         monster.setOpaque(false);
         Game.frame.add(monster);
-        System.out.println("Mob added!");
 
         try{
             while(true) {
