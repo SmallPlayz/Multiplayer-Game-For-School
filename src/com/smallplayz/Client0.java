@@ -55,12 +55,25 @@ public class Client0 extends Thread{
         try {
             while ((responseLine = is.readLine()) != null) {
                 System.out.println(responseLine);
-                //if()
+                if(responseLine.substring(0, 19).equals("[Player0] : #move A") || responseLine.substring(0, 19).equals("[Player0] : #move D"))
+                    System.out.println(findMovementCords(responseLine, 0));
+                else if(responseLine.substring(0, 19).equals("[Player0] : #move W") || responseLine.substring(0, 19).equals("[Player0] : #move S"))
+                    System.out.println(findMovementCords(responseLine, 1));
             }
             closed = true;
         } catch (IOException e) {
             System.err.println("IOException:  " + e);
         }
+    }
+    public static int findMovementCords(String line, int c){
+        String result = "";
+        int resultInt;
+        if(c == 0)
+            result = line.substring(19, 35).trim();
+        else if(c == 1)
+            result = line.substring(35).trim();
+        resultInt = Integer.parseInt(result);
+        return resultInt;
     }
 }
 
@@ -69,6 +82,9 @@ class Game extends Thread{
     static JFrame frame;
 
     static JLabel player;
+    static JLabel player1;
+    static JLabel player2;
+    static JLabel player3;
 
     Action upAction;
     Action downAction;
@@ -77,7 +93,7 @@ class Game extends Thread{
     Action shootAction;
     Action fullscreenAction;
 
-    public static int width = 600, height = 600;
+    public static int width = 1280, height = 720;
 
     public static char playerDir = 'W';
     public static boolean fullScreen = false;
@@ -92,6 +108,18 @@ class Game extends Thread{
         player = new JLabel(new ImageIcon("images/player.png"));
         player.setBounds(100, 100, 100, 100);
         player.setOpaque(false);
+
+        player1 = new JLabel(new ImageIcon("images/player1.png"));
+        player1.setBounds(1100, 100, 100, 100);
+        player1.setOpaque(false);
+
+        player2 = new JLabel(new ImageIcon("images/player2.png"));
+        player2.setBounds(100, 500, 100, 100);
+        player2.setOpaque(false);
+
+        player3 = new JLabel(new ImageIcon("images/player3.png"));
+        player3.setBounds(1100, 500, 100, 100);
+        player3.setOpaque(false);
 
         upAction = new UpAction();
         downAction = new DownAction();
@@ -114,6 +142,9 @@ class Game extends Thread{
         player.getActionMap().put("fullscreenAction", fullscreenAction);
 
         frame.add(player);
+        frame.add(player1);
+        frame.add(player2);
+        frame.add(player3);
 
         //Monster monsterThread = new Monster();
         //monsterThread.start();
@@ -134,7 +165,7 @@ class Game extends Thread{
             player.setLocation(player.getX(), player.getY() - 10);
             player.setIcon(new ImageIcon("images/player.png"));
             playerDir = 'W';
-            Client0.os.println(playerDir + "       " + player.getX() + "       " + player.getY());
+            Client0.os.println("#move " + playerDir + "       " + player.getX() + "       " + player.getY());
         }
     }
 
@@ -145,7 +176,7 @@ class Game extends Thread{
             player.setLocation(player.getX(), player.getY() + 10);
             player.setIcon(new ImageIcon("images/playerDown.png"));
             playerDir = 'S';
-            Client0.os.println(playerDir + "       " + player.getX() + "       " + player.getY());
+            Client0.os.println("#move " + playerDir + "       " + player.getX() + "       " + player.getY());
         }
     }
 
@@ -156,7 +187,7 @@ class Game extends Thread{
             player.setLocation(player.getX() - 10, player.getY());
             player.setIcon(new ImageIcon("images/playerLeft.png"));
             playerDir = 'A';
-            Client0.os.println(playerDir + "       " + player.getX() + "       " + player.getY());
+            Client0.os.println("#move " + playerDir + "       " + player.getX() + "       " + player.getY());
         }
     }
 
@@ -167,7 +198,7 @@ class Game extends Thread{
             player.setLocation(player.getX() + 10, player.getY());
             player.setIcon(new ImageIcon("images/playerRight.png"));
             playerDir = 'D';
-            Client0.os.println(playerDir + "       " + player.getX() + "       " + player.getY());
+            Client0.os.println("#move " + playerDir + "       " + player.getX() + "       " + player.getY());
         }
     }
 
