@@ -1,4 +1,4 @@
-package com.smallplayz;
+package com.smallplayz.clientzero;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,7 +57,18 @@ public class Client0 extends Thread{
                 System.out.println(responseLine);
                 if(responseLine.startsWith("[Player1] : #move")) {
                     Game.player1.setLocation(findMovementCords(responseLine, 0), findMovementCords(responseLine, 1));
+                    if(responseLine.charAt(18) == 'W')
+                        Game.player1.setIcon(new ImageIcon("images/player1.png"));
+                    else if(responseLine.charAt(18) == 'A')
+                        Game.player1.setIcon(new ImageIcon("images/player1Left.png"));
+                    else if(responseLine.charAt(18) == 'S')
+                        Game.player1.setIcon(new ImageIcon("images/player1Down.png"));
+                    else if(responseLine.charAt(18) == 'D')
+                        Game.player1.setIcon(new ImageIcon("images/player1Right.png"));
                 }
+                else if(responseLine.startsWith("[Player1] : #bullet")){
+
+                } //[Player1] : #bullet A       990       110
             }
             closed = true;
         } catch (IOException e) {

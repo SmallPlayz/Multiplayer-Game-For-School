@@ -1,4 +1,4 @@
-package com.smallplayz;
+package com.smallplayz.server;
 
 import java.io.DataInputStream;
 import java.io.PrintStream;
