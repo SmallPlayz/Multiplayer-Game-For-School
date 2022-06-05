@@ -55,10 +55,9 @@ public class Client0 extends Thread{
         try {
             while ((responseLine = is.readLine()) != null) {
                 System.out.println(responseLine);
-                if(responseLine.substring(0, 19).equals("[Player0] : #move A") || responseLine.substring(0, 19).equals("[Player0] : #move D"))
-                    System.out.println(findMovementCords(responseLine, 0));
-                else if(responseLine.substring(0, 19).equals("[Player0] : #move W") || responseLine.substring(0, 19).equals("[Player0] : #move S"))
-                    System.out.println(findMovementCords(responseLine, 1));
+                if(responseLine.startsWith("[Player1] : #move")) {
+                    Game.player1.setLocation(findMovementCords(responseLine, 0), findMovementCords(responseLine, 1));
+                }
             }
             closed = true;
         } catch (IOException e) {
