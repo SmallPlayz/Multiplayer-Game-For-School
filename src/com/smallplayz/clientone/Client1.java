@@ -55,16 +55,23 @@ public class Client1 extends Thread{
         try {
             while ((responseLine = is.readLine()) != null) {
                 System.out.println(responseLine);
-                if(responseLine.startsWith("[Player0] : #move")) {
-                    Game.player.setLocation(findMovementCords(responseLine, 0), findMovementCords(responseLine, 1));
-                    if(responseLine.charAt(18) == 'W')
-                        Game.player.setIcon(new ImageIcon("images/player.png"));
-                    else if(responseLine.charAt(18) == 'A')
-                        Game.player.setIcon(new ImageIcon("images/playerLeft.png"));
-                    else if(responseLine.charAt(18) == 'S')
-                        Game.player.setIcon(new ImageIcon("images/playerDown.png"));
-                    else if(responseLine.charAt(18) == 'D')
-                        Game.player.setIcon(new ImageIcon("images/playerRight.png"));
+                if(responseLine.startsWith("[Player1]")){
+
+                }else {
+                    if (responseLine.startsWith("[Player0] : #move")) {
+                        Game.player.setLocation(findMovementCords(responseLine, 0), findMovementCords(responseLine, 1));
+                        if (responseLine.charAt(18) == 'W')
+                            Game.player.setIcon(new ImageIcon("images/player.png"));
+                        else if (responseLine.charAt(18) == 'A')
+                            Game.player.setIcon(new ImageIcon("images/playerLeft.png"));
+                        else if (responseLine.charAt(18) == 'S')
+                            Game.player.setIcon(new ImageIcon("images/playerDown.png"));
+                        else if (responseLine.charAt(18) == 'D')
+                            Game.player.setIcon(new ImageIcon("images/playerRight.png"));
+                    } else if (responseLine.substring(12, 19).equals("#bullet")) {
+                        MultiplayerGun thread1 = new MultiplayerGun(responseLine.substring(1, 8), responseLine.charAt(20));
+                        thread1.start();
+                    }
                 }
             }
             closed = true;
@@ -299,6 +306,56 @@ class Monster extends Thread{
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+}
+
+class MultiplayerGun extends Thread{
+
+    JLabel bullet;
+    private static String MultiplayerPlayer = "";
+    private static char MultiplayerDir = ' ';
+
+    MultiplayerGun(String player, char dir){
+        MultiplayerPlayer = player;
+        MultiplayerDir = dir;
+    }
+
+    public void run() {
+
+        bullet = new JLabel(new ImageIcon("images/bullet.png"));
+        bullet.setBounds(50, 50, 15, 15);
+        if(MultiplayerPlayer.equals("Player0"))
+            bullet.setLocation(Game.player.getX()+40, Game.player.getY()+40);
+        else if(MultiplayerPlayer.equals("Player2"))
+            bullet.setLocation(Game.player2.getX()+40, Game.player2.getY()+40);
+        else if(MultiplayerPlayer.equals("Player3"))
+            bullet.setLocation(Game.player3.getX()+40, Game.player3.getY()+40);
+        Game.frame.add(bullet);
+
+        if(MultiplayerDir == 'W') {
+            for (int i = 0; i < 3000; i++) {
+                bullet.setLocation(bullet.getX(), bullet.getY() - 1);
+                Game.wait(2);
+            }
+        }
+        else if(MultiplayerDir == 'A') {
+            for (int i = 0; i < 3000; i++) {
+                bullet.setLocation(bullet.getX() - 1, bullet.getY());
+                Game.wait(2);
+            }
+        }
+        else if(MultiplayerDir == 'S') {
+            for (int i = 0; i < 3000; i++) {
+                bullet.setLocation(bullet.getX(), bullet.getY() + 1);
+                Game.wait(2);
+            }
+        }
+        else if(MultiplayerDir == 'D') {
+            for (int i = 0; i < 3000; i++) {
+                bullet.setLocation(bullet.getX() + 1, bullet.getY());
+                Game.wait(2);
+            }
         }
     }
 }

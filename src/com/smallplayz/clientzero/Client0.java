@@ -55,20 +55,25 @@ public class Client0 extends Thread{
         try {
             while ((responseLine = is.readLine()) != null) {
                 System.out.println(responseLine);
-                if(responseLine.startsWith("[Player1] : #move")) {
-                    Game.player1.setLocation(findMovementCords(responseLine, 0), findMovementCords(responseLine, 1));
-                    if(responseLine.charAt(18) == 'W')
-                        Game.player1.setIcon(new ImageIcon("images/player1.png"));
-                    else if(responseLine.charAt(18) == 'A')
-                        Game.player1.setIcon(new ImageIcon("images/player1Left.png"));
-                    else if(responseLine.charAt(18) == 'S')
-                        Game.player1.setIcon(new ImageIcon("images/player1Down.png"));
-                    else if(responseLine.charAt(18) == 'D')
-                        Game.player1.setIcon(new ImageIcon("images/player1Right.png"));
-                }
-                else if(responseLine.startsWith("[Player1] : #bullet")){
+                if(responseLine.startsWith("[Player0]")){
 
-                } //[Player1] : #bullet A       990       110
+                }else{
+                    if(responseLine.startsWith("[Player1] : #move")) {
+                        Game.player1.setLocation(findMovementCords(responseLine, 0), findMovementCords(responseLine, 1));
+                        if(responseLine.charAt(18) == 'W')
+                            Game.player1.setIcon(new ImageIcon("images/player1.png"));
+                        else if(responseLine.charAt(18) == 'A')
+                            Game.player1.setIcon(new ImageIcon("images/player1Left.png"));
+                        else if(responseLine.charAt(18) == 'S')
+                            Game.player1.setIcon(new ImageIcon("images/player1Down.png"));
+                        else if(responseLine.charAt(18) == 'D')
+                            Game.player1.setIcon(new ImageIcon("images/player1Right.png"));
+                    }
+                    else if(responseLine.substring(12, 19).equals("#bullet")){
+                        MultiplayerGun thread1 = new MultiplayerGun(responseLine.substring(1, 8), responseLine.charAt(20));
+                        thread1.start();
+                    }
+                }
             }
             closed = true;
         } catch (IOException e) {
@@ -216,8 +221,8 @@ class Game extends Thread{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            Gun thread = new Gun();
-            thread.start();
+            Gun gunthread = new Gun();
+            gunthread.start();
         }
     }
 
@@ -302,6 +307,56 @@ class Monster extends Thread{
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+}
+
+class MultiplayerGun extends Thread{
+
+    JLabel bullet;
+    private static String MultiplayerPlayer = "";
+    private static char MultiplayerDir = ' ';
+
+    MultiplayerGun(String player, char dir){
+        MultiplayerPlayer = player;
+        MultiplayerDir = dir;
+    }
+
+    public void run() {
+
+        bullet = new JLabel(new ImageIcon("images/bullet.png"));
+        bullet.setBounds(50, 50, 15, 15);
+        if(MultiplayerPlayer.equals("Player1"))
+            bullet.setLocation(Game.player1.getX()+40, Game.player1.getY()+40);
+        else if(MultiplayerPlayer.equals("Player2"))
+            bullet.setLocation(Game.player2.getX()+40, Game.player2.getY()+40);
+        else if(MultiplayerPlayer.equals("Player3"))
+            bullet.setLocation(Game.player3.getX()+40, Game.player3.getY()+40);
+        Game.frame.add(bullet);
+
+        if(MultiplayerDir == 'W') {
+            for (int i = 0; i < 3000; i++) {
+                bullet.setLocation(bullet.getX(), bullet.getY() - 1);
+                Game.wait(2);
+            }
+        }
+        else if(MultiplayerDir == 'A') {
+            for (int i = 0; i < 3000; i++) {
+                bullet.setLocation(bullet.getX() - 1, bullet.getY());
+                Game.wait(2);
+            }
+        }
+        else if(MultiplayerDir == 'S') {
+            for (int i = 0; i < 3000; i++) {
+                bullet.setLocation(bullet.getX(), bullet.getY() + 1);
+                Game.wait(2);
+            }
+        }
+        else if(MultiplayerDir == 'D') {
+            for (int i = 0; i < 3000; i++) {
+                bullet.setLocation(bullet.getX() + 1, bullet.getY());
+                Game.wait(2);
+            }
         }
     }
 }
