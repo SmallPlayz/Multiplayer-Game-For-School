@@ -118,6 +118,8 @@ class Game extends Thread{
 
     static JFrame frame;
 
+    ImageIcon icon;
+
     static JLabel player;
     static JLabel player1;
     static JLabel player2;
@@ -141,6 +143,9 @@ class Game extends Thread{
         frame.setSize(width, height);
         frame.getContentPane().setBackground(new Color(107, 156, 88));
         frame.setLayout(null);
+
+        icon = new ImageIcon("images/player.png");
+        frame.setIconImage(icon.getImage());
 
         player = new JLabel(new ImageIcon("images/player.png"));
         player.setBounds(100, 100, 100, 100);
