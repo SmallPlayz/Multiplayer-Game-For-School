@@ -1,4 +1,4 @@
-package com.smallplayz.clientone;
+package com.smallplayz.clienttwo;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,7 +7,7 @@ import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class Client1 extends Thread{
+public class Client2 extends Thread{
 
     private static Socket clientSocket = null;
 
@@ -30,7 +30,7 @@ public class Client1 extends Thread{
             inputLine = new BufferedReader(new InputStreamReader(System.in));
             os = new PrintStream(clientSocket.getOutputStream());
             is = new DataInputStream(clientSocket.getInputStream());
-            os.println("Player1");
+            os.println("Player2");
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
         } catch (IOException e) {
@@ -38,7 +38,7 @@ public class Client1 extends Thread{
         }
         if (clientSocket != null && os != null && is != null) {
             try {
-                new Thread(new Client1()).start();
+                new Thread(new Client2()).start();
                 while (!closed) {
                     os.println(inputLine.readLine().trim());
                 }
@@ -55,7 +55,7 @@ public class Client1 extends Thread{
         try {
             while ((responseLine = is.readLine()) != null) {
                 System.out.println(responseLine);
-                if(responseLine.startsWith("[Player1]")){
+                if(responseLine.startsWith("[Player2]")){
 
                 }else {
                     if (responseLine.startsWith("[Player0] : #move")) {
@@ -69,16 +69,16 @@ public class Client1 extends Thread{
                         else if (responseLine.charAt(18) == 'D')
                             Game.player.setIcon(new ImageIcon("images/playerRight.png"));
                     }
-                    else if(responseLine.startsWith("[Player2] : #move")) {
-                        Game.player2.setLocation(findMovementCords(responseLine, 0), findMovementCords(responseLine, 1));
+                    else if(responseLine.startsWith("[Player1] : #move")) {
+                        Game.player1.setLocation(findMovementCords(responseLine, 0), findMovementCords(responseLine, 1));
                         if(responseLine.charAt(18) == 'W')
-                            Game.player2.setIcon(new ImageIcon("images/player2.png"));
+                            Game.player1.setIcon(new ImageIcon("images/player1.png"));
                         else if(responseLine.charAt(18) == 'A')
-                            Game.player2.setIcon(new ImageIcon("images/player2Left.png"));
+                            Game.player1.setIcon(new ImageIcon("images/player1Left.png"));
                         else if(responseLine.charAt(18) == 'S')
-                            Game.player2.setIcon(new ImageIcon("images/player2Down.png"));
+                            Game.player1.setIcon(new ImageIcon("images/player1Down.png"));
                         else if(responseLine.charAt(18) == 'D')
-                            Game.player2.setIcon(new ImageIcon("images/player2Right.png"));
+                            Game.player1.setIcon(new ImageIcon("images/player1Right.png"));
                     }
                     else if(responseLine.startsWith("[Player3] : #move")) {
                         Game.player3.setLocation(findMovementCords(responseLine, 0), findMovementCords(responseLine, 1));
@@ -136,7 +136,7 @@ class Game extends Thread{
     public static boolean fullScreen = false;
 
     Game() {
-        frame = new JFrame("Game1");
+        frame = new JFrame("Game2");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(width, height);
         frame.getContentPane().setBackground(new Color(107, 156, 88));
@@ -199,10 +199,10 @@ class Game extends Thread{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            player1.setLocation(player1.getX(), player1.getY() - 10);
-            player1.setIcon(new ImageIcon("images/player1.png"));
+            player2.setLocation(player2.getX(), player2.getY() - 10);
+            player2.setIcon(new ImageIcon("images/player2.png"));
             playerDir = 'W';
-            Client1.os.println("#move " + playerDir + "       " + player1.getX() + "       " + player1.getY());
+            Client2.os.println("#move " + playerDir + "       " + player2.getX() + "       " + player2.getY());
         }
     }
 
@@ -210,10 +210,10 @@ class Game extends Thread{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            player1.setLocation(player1.getX(), player1.getY() + 10);
-            player1.setIcon(new ImageIcon("images/player1Down.png"));
+            player2.setLocation(player2.getX(), player2.getY() + 10);
+            player2.setIcon(new ImageIcon("images/player2Down.png"));
             playerDir = 'S';
-            Client1.os.println("#move " + playerDir + "       " + player1.getX() + "       " + player1.getY());
+            Client2.os.println("#move " + playerDir + "       " + player2.getX() + "       " + player2.getY());
         }
     }
 
@@ -221,10 +221,10 @@ class Game extends Thread{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            player1.setLocation(player1.getX() - 10, player1.getY());
-            player1.setIcon(new ImageIcon("images/player1Left.png"));
+            player2.setLocation(player2.getX() - 10, player2.getY());
+            player2.setIcon(new ImageIcon("images/player2Left.png"));
             playerDir = 'A';
-            Client1.os.println("#move " + playerDir + "       " + player1.getX() + "       " + player1.getY());
+            Client2.os.println("#move " + playerDir + "       " + player2.getX() + "       " + player2.getY());
         }
     }
 
@@ -232,10 +232,10 @@ class Game extends Thread{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            player1.setLocation(player1.getX() + 10, player1.getY());
-            player1.setIcon(new ImageIcon("images/player1Right.png"));
+            player2.setLocation(player2.getX() + 10, player2.getY());
+            player2.setIcon(new ImageIcon("images/player2Right.png"));
             playerDir = 'D';
-            Client1.os.println("#move " + playerDir + "       " + player1.getX() + "       " + player1.getY());
+            Client2.os.println("#move " + playerDir + "       " + player2.getX() + "       " + player2.getY());
         }
     }
 
@@ -273,9 +273,9 @@ class Gun extends Thread{
         
         bullet = new JLabel(new ImageIcon("images/bullet.png"));
         bullet.setBounds(50, 50, 15, 15);
-        bullet.setLocation(Game.player1.getX()+40, Game.player1.getY()+40);
+        bullet.setLocation(Game.player2.getX()+40, Game.player2.getY()+40);
         Game.frame.add(bullet);
-        Client1.os.println("#bullet " + Game.playerDir + "       " + bullet.getX() + "       " + bullet.getY());
+        Client2.os.println("#bullet " + Game.playerDir + "       " + bullet.getX() + "       " + bullet.getY());
 
         if(Game.playerDir == 'W') {
             for (int i = 0; i < 3000; i++) {
@@ -350,10 +350,10 @@ class MultiplayerGun extends Thread{
         bullet.setBounds(50, 50, 15, 15);
         if(MultiplayerPlayer.equals("Player0"))
             bullet.setLocation(Game.player.getX()+40, Game.player.getY()+40);
-        else if(MultiplayerPlayer.equals("Player2"))
-            bullet.setLocation(Game.player2.getX()+40, Game.player2.getY()+40);
         else if(MultiplayerPlayer.equals("Player3"))
             bullet.setLocation(Game.player3.getX()+40, Game.player3.getY()+40);
+        else if(MultiplayerPlayer.equals("Player1"))
+            bullet.setLocation(Game.player1.getX()+40, Game.player1.getY()+40);
         Game.frame.add(bullet);
 
         if(MultiplayerDir == 'W') {

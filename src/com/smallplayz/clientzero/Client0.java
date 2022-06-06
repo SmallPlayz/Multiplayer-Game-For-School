@@ -69,6 +69,28 @@ public class Client0 extends Thread{
                         else if(responseLine.charAt(18) == 'D')
                             Game.player1.setIcon(new ImageIcon("images/player1Right.png"));
                     }
+                    else if(responseLine.startsWith("[Player2] : #move")) {
+                        Game.player2.setLocation(findMovementCords(responseLine, 0), findMovementCords(responseLine, 1));
+                        if(responseLine.charAt(18) == 'W')
+                            Game.player2.setIcon(new ImageIcon("images/player2.png"));
+                        else if(responseLine.charAt(18) == 'A')
+                            Game.player2.setIcon(new ImageIcon("images/player2Left.png"));
+                        else if(responseLine.charAt(18) == 'S')
+                            Game.player2.setIcon(new ImageIcon("images/player2Down.png"));
+                        else if(responseLine.charAt(18) == 'D')
+                            Game.player2.setIcon(new ImageIcon("images/player2Right.png"));
+                    }
+                    else if(responseLine.startsWith("[Player3] : #move")) {
+                        Game.player3.setLocation(findMovementCords(responseLine, 0), findMovementCords(responseLine, 1));
+                        if(responseLine.charAt(18) == 'W')
+                            Game.player3.setIcon(new ImageIcon("images/player3.png"));
+                        else if(responseLine.charAt(18) == 'A')
+                            Game.player3.setIcon(new ImageIcon("images/player3Left.png"));
+                        else if(responseLine.charAt(18) == 'S')
+                            Game.player3.setIcon(new ImageIcon("images/player3Down.png"));
+                        else if(responseLine.charAt(18) == 'D')
+                            Game.player3.setIcon(new ImageIcon("images/player3Right.png"));
+                    }
                     else if(responseLine.substring(12, 19).equals("#bullet")){
                         MultiplayerGun thread1 = new MultiplayerGun(responseLine.substring(1, 8), responseLine.charAt(20));
                         thread1.start();

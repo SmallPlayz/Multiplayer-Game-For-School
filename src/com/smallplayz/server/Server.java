@@ -77,12 +77,12 @@ class clientThread extends Thread {
             String name = is.readLine().trim();
             for (int i = 0; i < maxClientsCount; i++) {
                 if (threads[i] != null && threads[i] != this) {
-                    threads[i].os.println( name + " has connected to the server!");
+                    threads[i].os.println( name + " has joined the game.");
                 }
             }
             while (true) {
                 String line = is.readLine();
-                System.out.println(line);
+                System.out.println("[" + name + "] : " + line);
                 if (line.startsWith("#exit")) {
                     break;
                 }
@@ -94,7 +94,7 @@ class clientThread extends Thread {
             }
             for (int i = 0; i < maxClientsCount; i++) {
                 if (threads[i] != null && threads[i] != this) {
-                    threads[i].os.println( name + " has disconnected from the server.");
+                    threads[i].os.println( name + " has left the game.");
                 }
             }
             for (int i = 0; i < maxClientsCount; i++) {
