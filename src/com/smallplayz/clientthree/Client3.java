@@ -315,7 +315,7 @@ class Gun extends Thread{
 
     public void run() {
         
-        bullet = new JLabel(new ImageIcon("images/bullet.png"));
+        bullet = new JLabel(new ImageIcon("images/bulletWhite.png"));
         bullet.setBounds(50, 50, 15, 15);
         bullet.setLocation(Game.player3.getX()+40, Game.player3.getY()+40);
         Game.frame.add(bullet);
@@ -392,12 +392,18 @@ class MultiplayerGun extends Thread{
 
         bullet = new JLabel(new ImageIcon("images/bullet.png"));
         bullet.setBounds(50, 50, 15, 15);
-        if(MultiplayerPlayer.equals("Player0"))
-            bullet.setLocation(Game.player.getX()+40, Game.player.getY()+40);
-        else if(MultiplayerPlayer.equals("Player2"))
-            bullet.setLocation(Game.player2.getX()+40, Game.player2.getY()+40);
-        else if(MultiplayerPlayer.equals("Player1"))
-            bullet.setLocation(Game.player1.getX()+40, Game.player1.getY()+40);
+        if(MultiplayerPlayer.equals("Player0")) {
+            bullet.setLocation(Game.player.getX() + 40, Game.player.getY() + 40);
+            bullet.setIcon(new ImageIcon("images/bulletRed.png"));
+        }
+        else if(MultiplayerPlayer.equals("Player2")) {
+            bullet.setLocation(Game.player2.getX() + 40, Game.player2.getY() + 40);
+            bullet.setIcon(new ImageIcon("images/bulletBlue.png"));
+        }
+        else if(MultiplayerPlayer.equals("Player1")) {
+            bullet.setLocation(Game.player1.getX() + 40, Game.player1.getY() + 40);
+            bullet.setIcon(new ImageIcon("images/bulletOrange.png"));
+        }
         Game.frame.add(bullet);
 
         if(MultiplayerDir == 'W') {
