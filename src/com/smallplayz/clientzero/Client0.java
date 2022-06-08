@@ -125,6 +125,12 @@ class Game extends Thread{
     static JLabel player2;
     static JLabel player3;
 
+    static JLabel scoreBoard;
+    static JLabel scoreBoardRed;
+    static JLabel scoreBoardOrange;
+    static JLabel scoreBoardBlue;
+    static JLabel scoreBoardWhite;
+
     Action upAction;
     Action downAction;
     Action leftAction;
@@ -132,7 +138,8 @@ class Game extends Thread{
     Action shootAction;
     Action fullscreenAction;
 
-    public static int width = 1280, height = 720;
+    public static int width = 1280;
+    public static int height = 720;
 
     public static char playerDir = 'W';
     public static boolean fullScreen = false;
@@ -146,6 +153,40 @@ class Game extends Thread{
 
         icon = new ImageIcon("images/player.png");
         frame.setIconImage(icon.getImage());
+
+        scoreBoard = new JLabel("     100     100     100     100");
+        scoreBoard.setBounds(0, 0, 500, 50);
+        scoreBoard.setFont(new Font("Verdana",Font.BOLD,30));
+        frame.add(scoreBoard);
+
+        scoreBoardRed = new JLabel();
+        scoreBoardRed.setBounds(10, 10, 30, 30);
+        scoreBoardRed.setFont(new Font("Verdana",Font.BOLD,30));
+        scoreBoardRed.setBackground(Color.red);
+        scoreBoardRed.setOpaque(true);
+        frame.add(scoreBoardRed);
+
+        scoreBoardOrange = new JLabel();
+        scoreBoardOrange.setBounds(125, 10, 30, 30);
+        scoreBoardOrange.setFont(new Font("Verdana",Font.BOLD,30));
+        scoreBoardOrange.setBackground(new Color(255, 106, 0));
+        scoreBoardOrange.setOpaque(true);
+        frame.add(scoreBoardOrange);
+
+        scoreBoardBlue = new JLabel();
+        scoreBoardBlue.setBounds(235, 10, 30, 30);
+        scoreBoardBlue.setFont(new Font("Verdana",Font.BOLD,30));
+        scoreBoardBlue.setBackground(Color.blue);
+        scoreBoardBlue.setOpaque(true);
+        frame.add(scoreBoardBlue);
+
+        scoreBoardWhite = new JLabel();
+        scoreBoardWhite.setBounds(350, 10, 30, 30);
+        scoreBoardWhite.setFont(new Font("Verdana",Font.BOLD,30));
+        scoreBoardWhite.setBackground(Color.white);
+        scoreBoardWhite.setOpaque(true);
+        frame.add(scoreBoardWhite);
+
 
         player = new JLabel(new ImageIcon("images/player.png"));
         player.setBounds(100, 100, 100, 100);
@@ -187,9 +228,6 @@ class Game extends Thread{
         frame.add(player1);
         frame.add(player2);
         frame.add(player3);
-
-        //Monster monsterThread = new Monster();
-        //monsterThread.start();
 
         frame.setVisible(true);
     }
@@ -353,12 +391,15 @@ class MultiplayerGun extends Thread{
 
         bullet = new JLabel(new ImageIcon("images/bullet.png"));
         bullet.setBounds(50, 50, 15, 15);
-        if(MultiplayerPlayer.equals("Player1"))
-            bullet.setLocation(Game.player1.getX()+40, Game.player1.getY()+40);
-        else if(MultiplayerPlayer.equals("Player2"))
-            bullet.setLocation(Game.player2.getX()+40, Game.player2.getY()+40);
-        else if(MultiplayerPlayer.equals("Player3"))
-            bullet.setLocation(Game.player3.getX()+40, Game.player3.getY()+40);
+        if(MultiplayerPlayer.equals("Player1")) {
+            bullet.setLocation(Game.player1.getX() + 40, Game.player1.getY() + 40);
+        }
+        else if(MultiplayerPlayer.equals("Player2")) {
+            bullet.setLocation(Game.player2.getX() + 40, Game.player2.getY() + 40);
+        }
+        else if(MultiplayerPlayer.equals("Player3")) {
+            bullet.setLocation(Game.player3.getX() + 40, Game.player3.getY() + 40);
+        }
         Game.frame.add(bullet);
 
         if(MultiplayerDir == 'W') {

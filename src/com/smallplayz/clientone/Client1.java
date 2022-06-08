@@ -125,6 +125,12 @@ class Game extends Thread{
     static JLabel player2;
     static JLabel player3;
 
+    static JLabel scoreBoard;
+    static JLabel scoreBoardRed;
+    static JLabel scoreBoardOrange;
+    static JLabel scoreBoardBlue;
+    static JLabel scoreBoardWhite;
+
     Action upAction;
     Action downAction;
     Action leftAction;
@@ -146,6 +152,39 @@ class Game extends Thread{
 
         icon = new ImageIcon("images/player1.png");
         frame.setIconImage(icon.getImage());
+
+        scoreBoard = new JLabel("     100     100     100     100");
+        scoreBoard.setBounds(0, 0, 500, 50);
+        scoreBoard.setFont(new Font("Verdana",Font.BOLD,30));
+        frame.add(scoreBoard);
+
+        scoreBoardRed = new JLabel();
+        scoreBoardRed.setBounds(10, 10, 30, 30);
+        scoreBoardRed.setFont(new Font("Verdana",Font.BOLD,30));
+        scoreBoardRed.setBackground(Color.red);
+        scoreBoardRed.setOpaque(true);
+        frame.add(scoreBoardRed);
+
+        scoreBoardOrange = new JLabel();
+        scoreBoardOrange.setBounds(125, 10, 30, 30);
+        scoreBoardOrange.setFont(new Font("Verdana",Font.BOLD,30));
+        scoreBoardOrange.setBackground(new Color(255, 106, 0));
+        scoreBoardOrange.setOpaque(true);
+        frame.add(scoreBoardOrange);
+
+        scoreBoardBlue = new JLabel();
+        scoreBoardBlue.setBounds(235, 10, 30, 30);
+        scoreBoardBlue.setFont(new Font("Verdana",Font.BOLD,30));
+        scoreBoardBlue.setBackground(Color.blue);
+        scoreBoardBlue.setOpaque(true);
+        frame.add(scoreBoardBlue);
+
+        scoreBoardWhite = new JLabel();
+        scoreBoardWhite.setBounds(350, 10, 30, 30);
+        scoreBoardWhite.setFont(new Font("Verdana",Font.BOLD,30));
+        scoreBoardWhite.setBackground(Color.white);
+        scoreBoardWhite.setOpaque(true);
+        frame.add(scoreBoardWhite);
 
         player = new JLabel(new ImageIcon("images/player.png"));
         player.setBounds(100, 100, 100, 100);
