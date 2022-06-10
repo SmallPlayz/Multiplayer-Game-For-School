@@ -131,6 +131,10 @@ class Game extends Thread{
     static JLabel scoreBoardBlue;
     static JLabel scoreBoardWhite;
 
+    static JLabel grass;
+    static JLabel grass1;
+    static JLabel grass2;
+
     Action upAction;
     Action downAction;
     Action leftAction;
@@ -144,11 +148,13 @@ class Game extends Thread{
     public static char playerDir = 'W';
     public static boolean fullScreen = false;
 
+    public static long start = System.currentTimeMillis();
+
     Game() {
         frame = new JFrame("Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(width, height);
-        frame.getContentPane().setBackground(new Color(107, 156, 88));
+        frame.getContentPane().setBackground(new Color(100, 201, 65));
         frame.setLayout(null);
 
         icon = new ImageIcon("images/player.png");
@@ -229,6 +235,24 @@ class Game extends Thread{
         frame.add(player2);
         frame.add(player3);
 
+        grass = new JLabel(new ImageIcon("images/grass0.png"));
+        grass.setBounds(300, 300, 75, 100);
+        grass.setOpaque(false);
+        frame.add(grass);
+        
+        //grass1 = new JLabel(new ImageIcon("images/grass0.png"));
+        //grass1.setBounds(300, 300, 75, 100);
+        //grass1.setOpaque(false);
+        //frame.add(grass1);
+        
+        //grass2 = new JLabel(new ImageIcon("images/grass0.png"));
+        //grass2.setBounds(300, 300, 75, 100);
+        //grass2.setOpaque(false);
+        //frame.add(grass2);
+
+        Grass thread = new Grass();
+        thread.start();
+
         frame.setVisible(true);
     }
     public static void wait(int ms){
@@ -286,8 +310,11 @@ class Game extends Thread{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            Gun gunthread = new Gun();
-            gunthread.start();
+            if(System.currentTimeMillis() > start+250){
+                Gun gunthread = new Gun();
+                gunthread.start();
+                start = System.currentTimeMillis();
+            }
         }
     }
 
@@ -305,6 +332,9 @@ class Game extends Thread{
                 fullScreen = false;
             }
         }
+    }
+    public void run() {
+        System.out.println("hi");
     }
 }
 
@@ -428,6 +458,37 @@ class MultiplayerGun extends Thread{
                 bullet.setLocation(bullet.getX() + 1, bullet.getY());
                 Game.wait(2);
             }
+        }
+    }
+}
+
+class Grass extends Thread {
+    public void run(){
+        while (true) {
+            Game.grass.setIcon(new ImageIcon("images/grass0.png"));
+            Game.frame.repaint();
+            Game.wait(300);
+            Game.grass.setIcon(new ImageIcon("images/grass1.png"));
+            Game.frame.repaint();
+            Game.wait(300);
+            Game.grass.setIcon(new ImageIcon("images/grass2.png"));
+            Game.frame.repaint();
+            Game.wait(300);
+            Game.grass.setIcon(new ImageIcon("images/grass3.png"));
+            Game.frame.repaint();
+            Game.wait(300);
+            Game.grass.setIcon(new ImageIcon("images/grass4.png"));
+            Game.frame.repaint();
+            Game.wait(300);
+            Game.grass.setIcon(new ImageIcon("images/grass3.png"));
+            Game.frame.repaint();
+            Game.wait(300);
+            Game.grass.setIcon(new ImageIcon("images/grass2.png"));
+            Game.frame.repaint();
+            Game.wait(300);
+            Game.grass.setIcon(new ImageIcon("images/grass1.png"));
+            Game.frame.repaint();
+            Game.wait(300);
         }
     }
 }

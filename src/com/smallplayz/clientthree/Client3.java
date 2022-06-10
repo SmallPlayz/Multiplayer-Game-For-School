@@ -143,6 +143,8 @@ class Game extends Thread{
     public static char playerDir = 'W';
     public static boolean fullScreen = false;
 
+    public static long start = System.currentTimeMillis();
+
     Game() {
         frame = new JFrame("Game3");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -287,8 +289,11 @@ class Game extends Thread{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            Gun thread = new Gun();
-            thread.start();
+            if(System.currentTimeMillis() > start+250){
+                Gun gunthread = new Gun();
+                gunthread.start();
+                start = System.currentTimeMillis();
+            }
         }
     }
 
