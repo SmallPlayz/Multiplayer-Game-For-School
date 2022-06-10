@@ -127,9 +127,6 @@ class Game extends Thread{
 
     static JLabel scoreBoard;
     static JLabel scoreBoardRed;
-    static JLabel scoreBoardOrange;
-    static JLabel scoreBoardBlue;
-    static JLabel scoreBoardWhite;
 
     Action upAction;
     Action downAction;
@@ -145,6 +142,8 @@ class Game extends Thread{
 
     public static long start = System.currentTimeMillis();
 
+    public static int playerHealth = 100;
+
     Game() {
         frame = new JFrame("Game1");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -155,7 +154,7 @@ class Game extends Thread{
         icon = new ImageIcon("images/player1.png");
         frame.setIconImage(icon.getImage());
 
-        scoreBoard = new JLabel("     100     100     100     100");
+        scoreBoard = new JLabel("     " + playerHealth);
         scoreBoard.setBounds(0, 0, 500, 50);
         scoreBoard.setFont(new Font("Verdana",Font.BOLD,30));
         frame.add(scoreBoard);
@@ -163,30 +162,9 @@ class Game extends Thread{
         scoreBoardRed = new JLabel();
         scoreBoardRed.setBounds(10, 10, 30, 30);
         scoreBoardRed.setFont(new Font("Verdana",Font.BOLD,30));
-        scoreBoardRed.setBackground(Color.red);
+        scoreBoardRed.setBackground(new Color(255, 106, 0));
         scoreBoardRed.setOpaque(true);
         frame.add(scoreBoardRed);
-
-        scoreBoardOrange = new JLabel();
-        scoreBoardOrange.setBounds(125, 10, 30, 30);
-        scoreBoardOrange.setFont(new Font("Verdana",Font.BOLD,30));
-        scoreBoardOrange.setBackground(new Color(255, 106, 0));
-        scoreBoardOrange.setOpaque(true);
-        frame.add(scoreBoardOrange);
-
-        scoreBoardBlue = new JLabel();
-        scoreBoardBlue.setBounds(235, 10, 30, 30);
-        scoreBoardBlue.setFont(new Font("Verdana",Font.BOLD,30));
-        scoreBoardBlue.setBackground(Color.blue);
-        scoreBoardBlue.setOpaque(true);
-        frame.add(scoreBoardBlue);
-
-        scoreBoardWhite = new JLabel();
-        scoreBoardWhite.setBounds(350, 10, 30, 30);
-        scoreBoardWhite.setFont(new Font("Verdana",Font.BOLD,30));
-        scoreBoardWhite.setBackground(Color.white);
-        scoreBoardWhite.setOpaque(true);
-        frame.add(scoreBoardWhite);
 
         player = new JLabel(new ImageIcon("images/player.png"));
         player.setBounds(100, 100, 100, 100);
@@ -415,24 +393,64 @@ class MultiplayerGun extends Thread{
             for (int i = 0; i < 3000; i++) {
                 bullet.setLocation(bullet.getX(), bullet.getY() - 1);
                 Game.wait(2);
+                if(bullet.getX() <= Game.player1.getX()+100 && bullet.getX() >= Game.player1.getX()-15){
+                    if(bullet.getY() <= Game.player1.getY()+100 && bullet.getY() >= Game.player1.getY()-15){
+                        if(Game.playerHealth>0)
+                            Game.playerHealth-=5;
+                        Game.scoreBoard.setText("     " + Game.playerHealth + "");
+                        Game.frame.repaint();
+                        bullet.setLocation(-100, -100);
+                        break;
+                    }
+                }
             }
         }
         else if(MultiplayerDir == 'A') {
             for (int i = 0; i < 3000; i++) {
                 bullet.setLocation(bullet.getX() - 1, bullet.getY());
                 Game.wait(2);
+                if(bullet.getX() <= Game.player1.getX()+100 && bullet.getX() >= Game.player1.getX()-15){
+                    if(bullet.getY() <= Game.player1.getY()+100 && bullet.getY() >= Game.player1.getY()-15){
+                        if(Game.playerHealth>0)
+                            Game.playerHealth-=5;
+                        Game.scoreBoard.setText("     " + Game.playerHealth + "");
+                        Game.frame.repaint();
+                        bullet.setLocation(-100, -100);
+                        break;
+                    }
+                }
             }
         }
         else if(MultiplayerDir == 'S') {
             for (int i = 0; i < 3000; i++) {
                 bullet.setLocation(bullet.getX(), bullet.getY() + 1);
                 Game.wait(2);
+                if(bullet.getX() <= Game.player1.getX()+100 && bullet.getX() >= Game.player1.getX()-15){
+                    if(bullet.getY() <= Game.player1.getY()+100 && bullet.getY() >= Game.player1.getY()-15){
+                        if(Game.playerHealth>0)
+                            Game.playerHealth-=5;
+                        Game.scoreBoard.setText("     " + Game.playerHealth + "");
+                        Game.frame.repaint();
+                        bullet.setLocation(-100, -100);
+                        break;
+                    }
+                }
             }
         }
         else if(MultiplayerDir == 'D') {
             for (int i = 0; i < 3000; i++) {
                 bullet.setLocation(bullet.getX() + 1, bullet.getY());
                 Game.wait(2);
+                if(bullet.getX() <= Game.player1.getX()+100 && bullet.getX() >= Game.player1.getX()-15){
+                    if(bullet.getY() <= Game.player1.getY()+100 && bullet.getY() >= Game.player1.getY()-15){
+                        if(Game.playerHealth>0)
+                            Game.playerHealth-=5;
+                        Game.scoreBoard.setText("     " + Game.playerHealth + "");
+                        Game.frame.repaint();
+                        bullet.setLocation(-100, -100);
+                        break;
+                    }
+                }
             }
         }
     }
