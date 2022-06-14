@@ -101,6 +101,15 @@ public class Client0 extends Thread{
                         else if(responseLine.charAt(18) == 'D')
                             Game.player3.setIcon(new ImageIcon("images/player3Right.png"));
                     }
+                    else if(responseLine.startsWith("[Player1] : #dead")) {
+                        Game.player1.setIcon(new ImageIcon("images/player1Dead.png"));
+                    }
+                    else if(responseLine.startsWith("[Player2] : #dead")) {
+                        Game.player2.setIcon(new ImageIcon("images/player2Dead.png"));
+                    }
+                    else if(responseLine.startsWith("[Player3] : #dead")) {
+                        Game.player3.setIcon(new ImageIcon("images/player3Dead.png"));
+                    }
                     else if(responseLine.substring(12, 19).equals("#bullet")){
                         MultiplayerGun thread1 = new MultiplayerGun(responseLine.substring(1, 8), responseLine.charAt(20));
                         thread1.start();
@@ -138,10 +147,6 @@ class Game extends Thread{
     static JLabel scoreBoard;
     static JLabel scoreBoardRed;
 
-    static JLabel grass;
-    static JLabel grass1;
-    static JLabel grass2;
-
     Action upAction;
     Action downAction;
     Action leftAction;
@@ -158,6 +163,8 @@ class Game extends Thread{
     public static long start = System.currentTimeMillis();
 
     public static int playerHealth = 100;
+
+    public static boolean notDead = true;
 
     Game() {
         frame = new JFrame("Game");
@@ -222,24 +229,6 @@ class Game extends Thread{
         frame.add(player2);
         frame.add(player3);
 
-        grass = new JLabel(new ImageIcon("images/grass0.png"));
-        grass.setBounds(300, 300, 75, 100);
-        grass.setOpaque(false);
-        frame.add(grass);
-        
-        //grass1 = new JLabel(new ImageIcon("images/grass0.png"));
-        //grass1.setBounds(300, 300, 75, 100);
-        //grass1.setOpaque(false);
-        //frame.add(grass1);
-        
-        //grass2 = new JLabel(new ImageIcon("images/grass0.png"));
-        //grass2.setBounds(300, 300, 75, 100);
-        //grass2.setOpaque(false);
-        //frame.add(grass2);
-
-        Grass thread = new Grass();
-        thread.start();
-
         frame.setVisible(true);
     }
     public static void wait(int ms){
@@ -253,10 +242,12 @@ class Game extends Thread{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            player.setLocation(player.getX(), player.getY() - 10);
-            player.setIcon(new ImageIcon("images/player.png"));
-            playerDir = 'W';
-            Client0.os.println("#move " + playerDir + "       " + player.getX() + "       " + player.getY());
+            if(notDead) {
+                player.setLocation(player.getX(), player.getY() - 10);
+                player.setIcon(new ImageIcon("images/player.png"));
+                playerDir = 'W';
+                Client0.os.println("#move " + playerDir + "       " + player.getX() + "       " + player.getY());
+            }
         }
     }
 
@@ -264,10 +255,12 @@ class Game extends Thread{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            player.setLocation(player.getX(), player.getY() + 10);
-            player.setIcon(new ImageIcon("images/playerDown.png"));
-            playerDir = 'S';
-            Client0.os.println("#move " + playerDir + "       " + player.getX() + "       " + player.getY());
+            if(notDead) {
+                player.setLocation(player.getX(), player.getY() + 10);
+                player.setIcon(new ImageIcon("images/playerDown.png"));
+                playerDir = 'S';
+                Client0.os.println("#move " + playerDir + "       " + player.getX() + "       " + player.getY());
+            }
         }
     }
 
@@ -275,10 +268,12 @@ class Game extends Thread{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            player.setLocation(player.getX() - 10, player.getY());
-            player.setIcon(new ImageIcon("images/playerLeft.png"));
-            playerDir = 'A';
-            Client0.os.println("#move " + playerDir + "       " + player.getX() + "       " + player.getY());
+            if(notDead) {
+                player.setLocation(player.getX() - 10, player.getY());
+                player.setIcon(new ImageIcon("images/playerLeft.png"));
+                playerDir = 'A';
+                Client0.os.println("#move " + playerDir + "       " + player.getX() + "       " + player.getY());
+            }
         }
     }
 
@@ -286,10 +281,12 @@ class Game extends Thread{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            player.setLocation(player.getX() + 10, player.getY());
-            player.setIcon(new ImageIcon("images/playerRight.png"));
-            playerDir = 'D';
-            Client0.os.println("#move " + playerDir + "       " + player.getX() + "       " + player.getY());
+            if(notDead) {
+                player.setLocation(player.getX() + 10, player.getY());
+                player.setIcon(new ImageIcon("images/playerRight.png"));
+                playerDir = 'D';
+                Client0.os.println("#move " + playerDir + "       " + player.getX() + "       " + player.getY());
+            }
         }
     }
 
@@ -297,10 +294,12 @@ class Game extends Thread{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(System.currentTimeMillis() > start+250){
-                Gun gunthread = new Gun();
-                gunthread.start();
-                start = System.currentTimeMillis();
+            if(notDead) {
+                if (System.currentTimeMillis() > start + 250) {
+                    Gun gunthread = new Gun();
+                    gunthread.start();
+                    start = System.currentTimeMillis();
+                }
             }
         }
     }
@@ -428,8 +427,9 @@ class MultiplayerGun extends Thread{
                 Game.wait(2);
                 if(bullet.getX() <= Game.player.getX()+100 && bullet.getX() >= Game.player.getX()-15){
                     if(bullet.getY() <= Game.player.getY()+100 && bullet.getY() >= Game.player.getY()-15){
-                        if(Game.playerHealth>0)
-                            Game.playerHealth-=5;
+                        if(Game.playerHealth > 0)
+                            Game.playerHealth -= 5;
+                        checkDead();
                         Game.scoreBoard.setText("     " + Game.playerHealth + "");
                         Game.frame.repaint();
                         bullet.setLocation(-100, -100);
@@ -446,6 +446,7 @@ class MultiplayerGun extends Thread{
                     if(bullet.getY() <= Game.player.getY()+100 && bullet.getY() >= Game.player.getY()-15){
                         if(Game.playerHealth>0)
                             Game.playerHealth-=5;
+                        checkDead();
                         Game.scoreBoard.setText("     " + Game.playerHealth + "");
                         Game.frame.repaint();
                         bullet.setLocation(-100, -100);
@@ -462,6 +463,7 @@ class MultiplayerGun extends Thread{
                     if(bullet.getY() <= Game.player.getY()+100 && bullet.getY() >= Game.player.getY()-15){
                         if(Game.playerHealth>0)
                             Game.playerHealth-=5;
+                        checkDead();
                         Game.scoreBoard.setText("     " + Game.playerHealth + "");
                         Game.frame.repaint();
                         bullet.setLocation(-100, -100);
@@ -478,6 +480,7 @@ class MultiplayerGun extends Thread{
                     if(bullet.getY() <= Game.player.getY()+100 && bullet.getY() >= Game.player.getY()-15){
                         if(Game.playerHealth>0)
                             Game.playerHealth-=5;
+                        checkDead();
                         Game.scoreBoard.setText("     " + Game.playerHealth + "");
                         Game.frame.repaint();
                         bullet.setLocation(-100, -100);
@@ -487,35 +490,11 @@ class MultiplayerGun extends Thread{
             }
         }
     }
-}
-
-class Grass extends Thread {
-    public void run(){
-        while (true) {
-            Game.grass.setIcon(new ImageIcon("images/grass0.png"));
-            Game.frame.repaint();
-            Game.wait(300);
-            Game.grass.setIcon(new ImageIcon("images/grass1.png"));
-            Game.frame.repaint();
-            Game.wait(300);
-            Game.grass.setIcon(new ImageIcon("images/grass2.png"));
-            Game.frame.repaint();
-            Game.wait(300);
-            Game.grass.setIcon(new ImageIcon("images/grass3.png"));
-            Game.frame.repaint();
-            Game.wait(300);
-            Game.grass.setIcon(new ImageIcon("images/grass4.png"));
-            Game.frame.repaint();
-            Game.wait(300);
-            Game.grass.setIcon(new ImageIcon("images/grass3.png"));
-            Game.frame.repaint();
-            Game.wait(300);
-            Game.grass.setIcon(new ImageIcon("images/grass2.png"));
-            Game.frame.repaint();
-            Game.wait(300);
-            Game.grass.setIcon(new ImageIcon("images/grass1.png"));
-            Game.frame.repaint();
-            Game.wait(300);
+    public static void checkDead(){
+        if(Game.playerHealth == 0) {
+            Game.notDead = false;
+            Game.player.setIcon(new ImageIcon("images/playerDead.png"));
+            Client0.os.println("#dead");
         }
     }
 }
