@@ -25,17 +25,27 @@ public class Client3 extends Thread{
         int portNumber = 12345;
         String host = "localhost";
 
-        try {
-            clientSocket = new Socket(host, portNumber);
-            inputLine = new BufferedReader(new InputStreamReader(System.in));
-            os = new PrintStream(clientSocket.getOutputStream());
-            is = new DataInputStream(clientSocket.getInputStream());
-            os.println("Player3");
-        } catch (UnknownHostException e) {
-            System.err.println("Don't know about host " + host);
-        } catch (IOException e) {
-            System.err.println("Couldn't get I/O for the connection to the host " + host);
-        }
+        boolean connected = true;
+        int errorCount = 0, errorCount1 = 0;
+        do{
+            try {
+                clientSocket = new Socket(host, portNumber);
+                inputLine = new BufferedReader(new InputStreamReader(System.in));
+                os = new PrintStream(clientSocket.getOutputStream());
+                is = new DataInputStream(clientSocket.getInputStream());
+                os.println("Player3");
+                connected = true;
+            } catch (UnknownHostException e) {
+                System.err.println("Don't know about host " + host + " " + errorCount);
+                connected = false;
+                errorCount++;
+            } catch (IOException e) {
+                System.err.println("Couldn't get I/O for the connection to the host " + host + " " + errorCount1);
+                connected = false;
+                errorCount1++;
+            }
+        } while(!connected);
+
         if (clientSocket != null && os != null && is != null) {
             try {
                 new Thread(new Client3()).start();
@@ -151,7 +161,7 @@ class Game extends Thread{
         frame = new JFrame("Game3");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(width, height);
-        frame.getContentPane().setBackground(new Color(107, 156, 88));
+        frame.getContentPane().setBackground(new Color(100, 201, 65));
         frame.setLayout(null);
 
         icon = new ImageIcon("images/player3.png");
