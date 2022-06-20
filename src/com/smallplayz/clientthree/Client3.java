@@ -22,6 +22,8 @@ public class Client3 extends Thread{
 
         Game game = new Game();
 
+        Info info = new Info();
+
         int portNumber = 12345;
         String host = "localhost";
 
@@ -498,5 +500,35 @@ class MultiplayerGun extends Thread{
             Game.player3.setIcon(new ImageIcon("images/player3Dead.png"));
             Client3.os.println("#dead");
         }
+    }
+}
+
+class Info {
+
+    JFrame frame;
+    JLabel textField;
+
+    Info(){
+        frame = new JFrame("Information");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 500);
+        frame.setLayout(null);
+
+        ImageIcon icon = new ImageIcon("images/player3.png");
+        frame.setIconImage(icon.getImage());
+
+        textField = new JLabel("<html>" +
+                "<h1>Welcome to my Game</h1>" +
+                "<h3>Use <strong>WASD</strong> to move.</h3>" +
+                "<h3>Use <strong>E</strong> to shoot.</h3>" +
+                "<h3>Win by being the last to survive!</h3>" +
+                "<p><em>also press <strong>F</strong> to fullscreen!</em></p>" +
+                "</html>");
+        textField.setBounds(15, 15, 200, 300);
+        textField.setFont(new Font("Verdana",Font.PLAIN,30));
+
+        frame.add(textField);
+
+        frame.setVisible(true);
     }
 }
