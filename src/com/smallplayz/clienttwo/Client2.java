@@ -170,6 +170,10 @@ class Game extends Thread{
 
     public static boolean notDead = true;
 
+    public static boolean player1Dead = false;
+    public static boolean player0Dead = false;
+    public static boolean player3Dead = false;
+
     Game() {
         frame = new JFrame("Game2");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

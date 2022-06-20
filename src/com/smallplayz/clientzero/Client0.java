@@ -7,6 +7,8 @@ import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import static com.smallplayz.clientzero.Game.notDead;
+
 public class Client0 extends Thread{
 
     private static Socket clientSocket = null;
@@ -106,14 +108,257 @@ public class Client0 extends Thread{
                     else if(responseLine.startsWith("[Player1] : #dead")) {
                         Game.player1.setIcon(new ImageIcon("images/player1Dead.png"));
                         Game.player1Dead = true;
+                        System.out.println("DIED1");
+                        if(Game.player1Dead && Game.player2Dead && Game.player3Dead && Game.notDead){
+                            Game.frame.setVisible(false);
+                            JFrame frame = new JFrame("EndScreen");
+                            frame.setSize(500, 500);
+                            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            frame.setLayout(null);
+
+                            ImageIcon icon = new ImageIcon("images/player.png");
+                            frame.setIconImage(icon.getImage());
+
+                            JLabel textField = new JLabel("<html>" +
+                                    "<h1>You have Won!</h1>" +
+                                    "</html>");
+                            textField.setBounds(15, 15, 200, 300);
+                            textField.setFont(new Font("Verdana",Font.PLAIN,30));
+                            frame.add(textField);
+
+                            frame.setVisible(true);
+                            break;
+                        }
+                        else if(!Game.player1Dead && Game.player2Dead && Game.player3Dead && !Game.notDead){
+                            Game.frame.setVisible(false);
+                            JFrame frame = new JFrame("EndScreen");
+                            frame.setSize(500, 500);
+                            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            frame.setLayout(null);
+
+                            ImageIcon icon = new ImageIcon("images/player.png");
+                            frame.setIconImage(icon.getImage());
+
+                            JLabel textField = new JLabel("<html>" +
+                                    "<h1>Player 1 has Won!</h1>" +
+                                    "</html>");
+                            textField.setBounds(15, 15, 200, 300);
+                            textField.setFont(new Font("Verdana",Font.PLAIN,30));
+                            frame.add(textField);
+
+                            frame.setVisible(true);
+                            break;
+                        }
+                        else if(Game.player1Dead && !Game.player2Dead && Game.player3Dead && !Game.notDead){
+                            Game.frame.setVisible(false);
+                            JFrame frame = new JFrame("EndScreen");
+                            frame.setSize(500, 500);
+                            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            frame.setLayout(null);
+
+                            ImageIcon icon = new ImageIcon("images/player.png");
+                            frame.setIconImage(icon.getImage());
+
+                            JLabel textField = new JLabel("<html>" +
+                                    "<h1>Player 2 has Won!</h1>" +
+                                    "</html>");
+                            textField.setBounds(15, 15, 200, 300);
+                            textField.setFont(new Font("Verdana",Font.PLAIN,30));
+                            frame.add(textField);
+
+                            frame.setVisible(true);
+                            break;
+                        }
+                        else if(Game.player1Dead && Game.player2Dead && !Game.player3Dead && !Game.notDead){
+                            Game.frame.setVisible(false);
+                            JFrame frame = new JFrame("EndScreen");
+                            frame.setSize(500, 500);
+                            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            frame.setLayout(null);
+
+                            ImageIcon icon = new ImageIcon("images/player.png");
+                            frame.setIconImage(icon.getImage());
+
+                            JLabel textField = new JLabel("<html>" +
+                                    "<h1>Player 3 has Won!</h1>" +
+                                    "</html>");
+                            textField.setBounds(15, 15, 200, 300);
+                            textField.setFont(new Font("Verdana",Font.PLAIN,30));
+                            frame.add(textField);
+
+                            frame.setVisible(true);
+                            break;
+                        }
                     }
                     else if(responseLine.startsWith("[Player2] : #dead")) {
                         Game.player2.setIcon(new ImageIcon("images/player2Dead.png"));
                         Game.player2Dead = true;
+                        System.out.println("DIED2");
+                        if(Game.player1Dead && Game.player2Dead && Game.player3Dead && Game.notDead){
+                            Game.frame.setVisible(false);
+                            JFrame frame = new JFrame("EndScreen");
+                            frame.setSize(500, 500);
+                            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            frame.setLayout(null);
+
+                            ImageIcon icon = new ImageIcon("images/player.png");
+                            frame.setIconImage(icon.getImage());
+
+                            JLabel textField = new JLabel("<html>" +
+                                    "<h1>You have Won!</h1>" +
+                                    "</html>");
+                            textField.setBounds(15, 15, 200, 300);
+                            textField.setFont(new Font("Verdana",Font.PLAIN,30));
+                            frame.add(textField);
+
+                            frame.setVisible(true);
+                            break;
+                        }
+                        else if(!Game.player1Dead && Game.player2Dead && Game.player3Dead && !Game.notDead){
+                            Game.frame.setVisible(false);
+                            JFrame frame = new JFrame("EndScreen");
+                            frame.setSize(500, 500);
+                            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            frame.setLayout(null);
+
+                            ImageIcon icon = new ImageIcon("images/player.png");
+                            frame.setIconImage(icon.getImage());
+
+                            JLabel textField = new JLabel("<html>" +
+                                    "<h1>Player 1 has Won!</h1>" +
+                                    "</html>");
+                            textField.setBounds(15, 15, 200, 300);
+                            textField.setFont(new Font("Verdana",Font.PLAIN,30));
+                            frame.add(textField);
+
+                            frame.setVisible(true);
+                            break;
+                        }
+                        else if(Game.player1Dead && !Game.player2Dead && Game.player3Dead && !Game.notDead){
+                            Game.frame.setVisible(false);
+                            JFrame frame = new JFrame("EndScreen");
+                            frame.setSize(500, 500);
+                            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            frame.setLayout(null);
+
+                            ImageIcon icon = new ImageIcon("images/player.png");
+                            frame.setIconImage(icon.getImage());
+
+                            JLabel textField = new JLabel("<html>" +
+                                    "<h1>Player 2 has Won!</h1>" +
+                                    "</html>");
+                            textField.setBounds(15, 15, 200, 300);
+                            textField.setFont(new Font("Verdana",Font.PLAIN,30));
+                            frame.add(textField);
+
+                            frame.setVisible(true);
+                            break;
+                        }
+                        else if(Game.player1Dead && Game.player2Dead && !Game.player3Dead && !Game.notDead){
+                            Game.frame.setVisible(false);
+                            JFrame frame = new JFrame("EndScreen");
+                            frame.setSize(500, 500);
+                            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            frame.setLayout(null);
+
+                            ImageIcon icon = new ImageIcon("images/player.png");
+                            frame.setIconImage(icon.getImage());
+
+                            JLabel textField = new JLabel("<html>" +
+                                    "<h1>Player 3 has Won!</h1>" +
+                                    "</html>");
+                            textField.setBounds(15, 15, 200, 300);
+                            textField.setFont(new Font("Verdana",Font.PLAIN,30));
+                            frame.add(textField);
+
+                            frame.setVisible(true);
+                            break;
+                        }
                     }
                     else if(responseLine.startsWith("[Player3] : #dead")) {
                         Game.player3.setIcon(new ImageIcon("images/player3Dead.png"));
                         Game.player3Dead = true;
+                        System.out.println("DIED3");
+                        if(Game.player1Dead && Game.player2Dead && Game.player3Dead && Game.notDead){
+                            Game.frame.setVisible(false);
+                            JFrame frame = new JFrame("EndScreen");
+                            frame.setSize(500, 500);
+                            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            frame.setLayout(null);
+
+                            ImageIcon icon = new ImageIcon("images/player.png");
+                            frame.setIconImage(icon.getImage());
+
+                            JLabel textField = new JLabel("<html>" +
+                                    "<h1>You have Won!</h1>" +
+                                    "</html>");
+                            textField.setBounds(15, 15, 200, 300);
+                            textField.setFont(new Font("Verdana",Font.PLAIN,30));
+                            frame.add(textField);
+
+                            frame.setVisible(true);
+                            break;
+                        }
+                        else if(!Game.player1Dead && Game.player2Dead && Game.player3Dead && !Game.notDead){
+                            Game.frame.setVisible(false);
+                            JFrame frame = new JFrame("EndScreen");
+                            frame.setSize(500, 500);
+                            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            frame.setLayout(null);
+
+                            ImageIcon icon = new ImageIcon("images/player.png");
+                            frame.setIconImage(icon.getImage());
+
+                            JLabel textField = new JLabel("<html>" +
+                                    "<h1>Player 1 has Won!</h1>" +
+                                    "</html>");
+                            textField.setBounds(15, 15, 200, 300);
+                            textField.setFont(new Font("Verdana",Font.PLAIN,30));
+                            frame.add(textField);
+
+                            frame.setVisible(true);
+                            break;
+                        }
+                        else if(Game.player1Dead && !Game.player2Dead && Game.player3Dead && !Game.notDead){
+                            Game.frame.setVisible(false);
+                            JFrame frame = new JFrame("EndScreen");
+                            frame.setSize(500, 500);
+                            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            frame.setLayout(null);
+
+                            ImageIcon icon = new ImageIcon("images/player.png");
+                            frame.setIconImage(icon.getImage());
+
+                            JLabel textField = new JLabel("<html>" +
+                                    "<h1>Player 2 has Won!</h1>" +
+                                    "</html>");
+                            textField.setBounds(15, 15, 200, 300);
+                            textField.setFont(new Font("Verdana",Font.PLAIN,30));
+                            frame.add(textField);
+
+                            frame.setVisible(true);
+                            break;
+                        }
+                        else if(Game.player1Dead && Game.player2Dead && !Game.player3Dead && !Game.notDead){
+                            Game.frame.setVisible(false);
+                            JFrame frame = new JFrame("EndScreen");
+                            frame.setSize(500, 500);
+                            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            frame.setLayout(null);
+
+                            ImageIcon icon = new ImageIcon("images/player.png");
+                            frame.setIconImage(icon.getImage());
+
+                            JLabel textField = new JLabel("<html>" +
+                                    "<h1>Player 3 has Won!</h1>" +
+                                    "</html>");
+                            textField.setBounds(15, 15, 200, 300);
+                            textField.setFont(new Font("Verdana",Font.PLAIN,30));
+                            frame.add(textField);
+
+                            frame.setVisible(true);
+                            break;
+                        }
                     }
                     else if(responseLine.substring(12, 19).equals("#bullet")){
                         MultiplayerGun thread1 = new MultiplayerGun(responseLine.substring(1, 8), responseLine.charAt(20));
@@ -501,7 +746,7 @@ class MultiplayerGun extends Thread{
     }
     public static void checkDead(){
         if(Game.playerHealth == 0) {
-            Game.notDead = false;
+            notDead = false;
             Game.player.setIcon(new ImageIcon("images/playerDead.png"));
             Client0.os.println("#dead");
         }

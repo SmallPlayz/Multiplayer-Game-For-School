@@ -105,9 +105,97 @@ public class Client1 extends Thread{
                     }
                     else if(responseLine.startsWith("[Player0] : #dead")) {
                         Game.player.setIcon(new ImageIcon("images/playerDead.png"));
+                        
+                        Game.player0Dead = true;
+                        /*
+                        if(Game.player0Dead && Game.player2Dead && Game.player3Dead && Game.notDead){
+                            Game.frame.setVisible(false);
+                            JFrame frame = new JFrame("EndScreen");
+                            frame.setSize(500, 500);
+                            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            frame.setLayout(null);
+
+                            ImageIcon icon = new ImageIcon("images/player.png");
+                            frame.setIconImage(icon.getImage());
+
+                            JLabel textField = new JLabel("<html>" +
+                                    "<h1>You have Won!</h1>" +
+                                    "</html>");
+                            textField.setBounds(15, 15, 200, 300);
+                            textField.setFont(new Font("Verdana",Font.PLAIN,30));
+                            frame.add(textField);
+
+                            frame.setVisible(true);
+                            break;
+                        }
+                        else if(!Game.player0Dead && Game.player2Dead && Game.player3Dead && !Game.notDead){
+                            Game.frame.setVisible(false);
+                            JFrame frame = new JFrame("EndScreen");
+                            frame.setSize(500, 500);
+                            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            frame.setLayout(null);
+
+                            ImageIcon icon = new ImageIcon("images/player.png");
+                            frame.setIconImage(icon.getImage());
+
+                            JLabel textField = new JLabel("<html>" +
+                                    "<h1>Player 0 has Won!</h1>" +
+                                    "</html>");
+                            textField.setBounds(15, 15, 200, 300);
+                            textField.setFont(new Font("Verdana",Font.PLAIN,30));
+                            frame.add(textField);
+
+                            frame.setVisible(true);
+                            break;
+                        }
+                        else if(Game.player0Dead && !Game.player2Dead && Game.player3Dead && !Game.notDead){
+                            Game.frame.setVisible(false);
+                            JFrame frame = new JFrame("EndScreen");
+                            frame.setSize(500, 500);
+                            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            frame.setLayout(null);
+
+                            ImageIcon icon = new ImageIcon("images/player.png");
+                            frame.setIconImage(icon.getImage());
+
+                            JLabel textField = new JLabel("<html>" +
+                                    "<h1>Player 2 has Won!</h1>" +
+                                    "</html>");
+                            textField.setBounds(15, 15, 200, 300);
+                            textField.setFont(new Font("Verdana",Font.PLAIN,30));
+                            frame.add(textField);
+
+                            frame.setVisible(true);
+                            break;
+                        }
+                        else if(Game.player0Dead && Game.player2Dead && !Game.player3Dead && !Game.notDead){
+                            Game.frame.setVisible(false);
+                            JFrame frame = new JFrame("EndScreen");
+                            frame.setSize(500, 500);
+                            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            frame.setLayout(null);
+
+                            ImageIcon icon = new ImageIcon("images/player.png");
+                            frame.setIconImage(icon.getImage());
+
+                            JLabel textField = new JLabel("<html>" +
+                                    "<h1>Player 3 has Won!</h1>" +
+                                    "</html>");
+                            textField.setBounds(15, 15, 200, 300);
+                            textField.setFont(new Font("Verdana",Font.PLAIN,30));
+                            frame.add(textField);
+
+                            frame.setVisible(true);
+                            break;
+                        }
+                         */
+
                     }
                     else if(responseLine.startsWith("[Player2] : #dead")) {
                         Game.player2.setIcon(new ImageIcon("images/player2Dead.png"));
+
+                        Game.player2Dead = true;
+
                     }
                     else if(responseLine.startsWith("[Player3] : #dead")) {
                         Game.player3.setIcon(new ImageIcon("images/player3Dead.png"));
@@ -166,6 +254,10 @@ class Game extends Thread{
     public static int playerHealth = 100;
 
     public static boolean notDead = true;
+
+    public static boolean player0Dead = false;
+    public static boolean player2Dead = false;
+    public static boolean player3Dead = false;
 
     Game() {
         frame = new JFrame("Game1");
